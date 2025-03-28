@@ -1,0 +1,771 @@
+/* Основные стили для контейнера уведомлений */
+.notifications-container {
+    width: 100%;
+    height: 100%; /* Растягиваем на всю высоту .content */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Стилизация заголовка раздела в стиле новостей */
+.notifications-header {
+    position: relative;
+    margin-bottom: 25px;
+    padding: 40px 20px;
+    min-height: 170px;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 16px;
+    /* Градиентный фон с синими и темно-синими тонами как в новостях */
+    background: linear-gradient(125deg, rgba(22, 26, 45, 0.85), rgba(32, 36, 58, 0.9));
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+/* Добавляем розовое свечение как в новостях */
+.notifications-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255, 85, 115, 0.15), transparent 70%);
+    z-index: 1;
+}
+
+/* Анимированный градиентный фон как в новостях */
+.notifications-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(217deg, rgba(30, 40, 80, 0.05), rgba(30, 40, 80, 0.08) 70.71%),
+                linear-gradient(127deg, rgba(255, 85, 115, 0.07), rgba(255, 85, 115, 0.1) 70.71%),
+                linear-gradient(336deg, rgba(25, 35, 65, 0.05), rgba(25, 35, 65, 0.08) 70.71%);
+    z-index: 0;
+    transform: rotate(0deg);
+    animation: gradientRotate 15s linear infinite;
+}
+
+@keyframes gradientRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.notifications-title {
+    position: relative;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    /* Белый текст с градиентом как в новостях */
+    background: linear-gradient(90deg, #ffffff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Легкое свечение текста */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    z-index: 2;
+}
+
+.notifications-subtitle {
+    position: relative;
+    font-size: 1.1rem;
+    /* Светлый текст с голубовато-розовым оттенком как в новостях */
+    color: #c5c8e0;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+    z-index: 2;
+}
+
+/* Контейнер для скроллабельного содержимого */
+.notifications-grid-container {
+    position: relative;
+    width: 98%; /* Уменьшаем с 100% до 98% */
+    margin: 0 auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.notifications-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-right: 10px; /* Добавляем отступ справа для предотвращения наложения */
+}
+
+.notifications-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* Сообщение "Нет уведомлений" */
+.no-notifications-message {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 50px;
+    color: gray;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+/* Стили для карточки уведомления - обновленный дизайн */
+.notification-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(20, 22, 35, 0.95), rgba(25, 28, 45, 0.95));
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 99%; /* Уменьшаем для предотвращения наложения */
+    width: 100%;
+    border: 1px solid rgba(50, 55, 85, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+    overflow: hidden;
+    gap: 15px;
+    will-change: opacity; /* Оптимизация анимации */
+    min-height: 85px; /* Минимальная высота карточки - уменьшена */
+    height: 85px; /* Фиксированная высота карточки - уменьшена */
+    flex-shrink: 0; /* Запрещаем сжатие карточки */
+    box-sizing: border-box; /* Учитываем padding в общей высоте */
+}
+
+.notification-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(255, 85, 115, 0.02) 0%, 
+        rgba(30, 40, 80, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.notification-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    border-color: rgba(217, 22, 140, 0.3);
+}
+
+.notification-card:hover::before {
+    opacity: 1;
+}
+
+/* Убираем margin-bottom у последней карточки */
+.notification-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Стили для аватарки */
+.notification-avatar {
+    width: 50px; /* Уменьшена с 65px */
+    height: 50px; /* Уменьшена с 65px */
+    border-radius: 50%;
+    border: 2px solid rgba(50, 55, 85, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.notification-card:hover .notification-avatar {
+    border-color: rgba(217, 22, 140, 0.5);
+    box-shadow: 0 3px 10px rgba(217, 22, 140, 0.2);
+}
+
+/* Стили для блока информации */
+.notification-info {
+    flex: 1;
+    min-width: 0; /* Для работы text-overflow */
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Уменьшен с 8px */
+}
+
+/* Стили для никнейма */
+.notification-username {
+    font-size: 17px; /* Уменьшен с 18px */
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.25s ease;
+    margin: 0;
+}
+
+.notification-card:hover .notification-username {
+    color: #ff85a2;
+    text-shadow: 0 0 5px rgba(255, 133, 162, 0.3);
+}
+
+/* Стили для текста уведомления */
+.notification-text {
+    font-size: 14px; /* Уменьшен с 16px */
+    font-weight: 500;
+    color: #a0a0bf;
+    margin: 0;
+    line-height: 1.2; /* Уменьшен с 1.3 */
+}
+
+/* Стили для контейнера кнопок */
+.notification-actions {
+    display: flex;
+    gap: 8px; /* Уменьшен с 10px */
+    flex-shrink: 0;
+}
+
+/* Стили для кнопки "Принять" */
+.accept-btn {
+    padding: 7px 12px; /* Уменьшен с 10px 18px */
+    background: linear-gradient(135deg, #ff3366, #ff6680);
+    border-radius: 20px; /* Уменьшен с 30px */
+    color: white;
+    font-weight: 600;
+    font-size: 13px; /* Уменьшен с 15px */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 3px 8px rgba(217, 22, 140, 0.25);
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap; /* Предотвращаем перенос текста */
+}
+
+.accept-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.accept-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(217, 22, 140, 0.35);
+}
+
+.accept-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.accept-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(217, 22, 140, 0.25);
+}
+
+/* Стили для кнопки "Отклонить" */
+.decline-btn {
+    padding: 7px 12px; /* Уменьшен с 10px 18px */
+    background: linear-gradient(135deg, rgb(25 27 38 / 90%), rgb(35 38 55 / 90%));
+    border-radius: 20px; /* Уменьшен с 30px */
+    color: #d1d1e0;
+    font-weight: 600;
+    font-size: 13px; /* Уменьшен с 15px */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap; /* Предотвращаем перенос текста */
+}
+
+.decline-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.decline-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.decline-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.decline-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для кастомного скроллбара */
+.notifications-custom-scrollbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 6px; /* Уменьшен с 8px */
+    margin-right: 5px; /* Увеличиваем отступ справа */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.notifications-grid-container:hover .notifications-custom-scrollbar {
+    opacity: 1;
+}
+
+.notifications-custom-scrollbar-track {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 13, 24, 0.247);
+    border-radius: 3px; /* Уменьшен с 4px */
+}
+
+.notifications-custom-scrollbar-thumb {
+    position: absolute;
+    width: 100%;
+    min-height: 40px;
+    border-radius: 3px; /* Уменьшен с 4px */
+    background: linear-gradient(to bottom, #af0089, #730055);
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-shadow: 0 0 5px rgba(255, 85, 115, 0.3);
+}
+
+.notifications-custom-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #ff6688, #ff4477);
+}
+
+.notifications-custom-scrollbar-thumb:active {
+    background: linear-gradient(to bottom, #ff7799, #ff5588);
+    box-shadow: 0 0 8px rgba(255, 85, 115, 0.4);
+}
+
+.notifications-custom-scrollbar.visible {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Анимация появления */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+/* Анимация исчезновения */
+.fade-out {
+    animation: fadeOut 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Адаптивные стили - ПОЛНОСТЬЮ ПЕРЕРАБОТАНЫ */
+/* Большие экраны и средние десктопы */
+@media (max-width: 1400px) {
+    .notification-card {
+        max-width: 99%;
+    }
+}
+
+/* Мелкие десктопы и большие планшеты */
+@media (max-width: 1200px) {
+    .notifications-header {
+        padding: 40px 15px;
+        min-height: 160px;
+    }
+    
+    .notifications-title {
+        font-size: 2rem;
+    }
+    
+    .notifications-subtitle {
+        font-size: 1rem;
+    }
+    
+    .notification-card {
+        max-width: 99%;
+        height: 80px;
+        min-height: 80px;
+        padding: 14px;
+    }
+    
+    .notification-avatar {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .notification-username {
+        font-size: 16px;
+    }
+    
+    .notification-text {
+        font-size: 13px;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .notifications-header {
+        padding: 35px 15px;
+        min-height: 150px;
+    }
+    
+    .notifications-title {
+        font-size: 1.8rem;
+    }
+    
+    .notifications-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .notification-card {
+        max-width: 99%;
+        height: 75px;
+        min-height: 75px;
+        padding: 12px;
+        gap: 12px;
+        margin-bottom: 12px; /* Уменьшаем отступ между карточками */
+    }
+    
+    .notification-avatar {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .notification-username {
+        font-size: 15px;
+    }
+    
+    .notification-text {
+        font-size: 12px;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+}
+
+/* Пейзажная ориентация мобильных устройств и мелкие планшеты */
+@media (max-width: 850px) {
+    .notification-card {
+        height: auto;
+        min-height: 0;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    
+    .notification-avatar {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .notification-username {
+        font-size: 14px;
+    }
+    
+    .notification-text {
+        font-size: 11px;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+}
+
+/* Большие мобильные устройства */
+@media (max-width: 767px) {
+    .notifications-header {
+        padding: 30px 15px;
+        min-height: 140px;
+        margin-bottom: 20px;
+    }
+    
+    .notifications-title {
+        font-size: 1.6rem;
+    }
+    
+    .notifications-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .notification-card {
+        max-width: 100%;
+        height: auto;
+        min-height: 0;
+        padding: 12px;
+        flex-direction: row; /* Сохраняем горизонтальное расположение */
+        align-items: center;
+        margin-bottom: 10px; /* Уменьшаем отступ между карточками */
+    }
+    
+    .notification-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .notification-actions {
+        flex-shrink: 0;
+    }
+    
+    .notification-info {
+        flex: 1;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        border-radius: 15px;
+    }
+}
+
+/* Средние мобильные устройства */
+@media (max-width: 600px) {
+    .notifications-header {
+        padding: 25px 15px;
+        min-height: 130px;
+        margin-bottom: 15px;
+    }
+    
+    .notifications-title {
+        font-size: 1.5rem;
+    }
+    
+    .notifications-subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .notification-card {
+        padding: 10px;
+        gap: 10px;
+        margin-bottom: 8px; /* Уменьшаем отступ между карточками */
+    }
+    
+    .notification-avatar {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .notification-username {
+        font-size: 13px;
+    }
+    
+    .notification-text {
+        font-size: 10px;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 3px 7px;
+        font-size: 9px;
+    }
+}
+
+/* Малые мобильные устройства (типа iPhone SE) */
+@media (max-width: 450px) {
+    .notifications-header {
+        padding: 20px 10px;
+        min-height: 120px;
+        margin-bottom: 12px;
+    }
+    
+    .notifications-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .notifications-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .notification-card {
+        padding: 8px;
+        gap: 8px;
+        margin-bottom: 6px; /* Уменьшаем отступ между карточками */
+    }
+    
+    .notification-avatar {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .notification-info {
+        gap: 2px;
+    }
+    
+    .notification-username {
+        font-size: 12px;
+    }
+    
+    .notification-text {
+        font-size: 9px;
+    }
+    
+    /* Делаем кнопки вертикальными только на очень маленьких экранах */
+    .notification-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .accept-btn, .decline-btn {
+        padding: 3px 6px;
+        font-size: 8px;
+        /* Важно: кнопки должны быть компактными */
+        min-width: 0;
+        width: auto;
+    }
+}
+
+/* Очень малые мобильные устройства */
+@media (max-width: 375px) {
+    .notifications-header {
+        padding: 18px 10px;
+        min-height: 110px;
+    }
+    
+    .notifications-title {
+        font-size: 1.2rem;
+    }
+    
+    .notifications-subtitle {
+        font-size: 0.75rem;
+    }
+    
+    /* Изменяем структуру карточки для сверхмаленьких экранов */
+    .notification-card {
+        padding: 7px;
+        gap: 6px;
+        margin-bottom: 4px; /* Уменьшаем отступ между карточками */
+    }
+    
+    .notification-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .notification-username {
+        font-size: 11px;
+    }
+    
+    .notification-text {
+        font-size: 8px;
+    }
+    
+    /* Сверхкомпактные кнопки */
+    .accept-btn, .decline-btn {
+        padding: 2px 5px;
+        font-size: 7px;
+        border-radius: 10px;
+    }
+}
+
+/* Стили для пустого состояния уведомлений */
+.notifications-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    margin: 5px 0 25px;
+}
+
+.notifications-circle-graphics {
+    position: relative;
+    height: 130px;
+    width: 75%;
+    margin: 0 auto 25px;
+    overflow: visible;
+}
+
+@media (max-height: 700px) {
+    .notifications-empty-state {
+        margin: 5px 0 15px;
+    }
+    
+    .notifications-circle-graphics {
+        height: 110px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .notifications-empty-state {
+        margin: 3px 0 20px;
+    }
+    
+    .notifications-circle-graphics {
+        height: 100px;
+        margin-bottom: 20px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .notifications-empty-state {
+        margin: 0 0 15px;
+        padding: 0 10px;
+    }
+    
+    .notifications-circle-graphics {
+        height: 70px;
+        margin-bottom: 15px;
+        width: 75%;
+    }
+}
+
+@media (max-width: 380px) {
+    .notifications-empty-state {
+        margin: 0 0 10px;
+    }
+    
+    .notifications-circle-graphics {
+        height: 60px;
+        margin-bottom: 10px;
+        width: 70%;
+    }
+}

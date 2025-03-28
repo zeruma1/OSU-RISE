@@ -1,0 +1,32 @@
+.animations-disabled,
+.animations-disabled *,
+.animations-disabled *::before,
+.animations-disabled *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Исправляем видимость карточек, когда анимации отключены */
+.animations-disabled .news-card,
+.animations-disabled .rating-game-card,
+.animations-disabled .fast-game-card {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Исправление скрытия карточек в лидерборде при отключенных анимациях */
+.animations-disabled .player-card,
+.animations-disabled .friend-card {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    display: flex !important;
+}
+
+/* Убираем анимацию градиента у хедеров при отключенных анимациях */
+.animations-disabled .news-header::after,
+.animations-disabled .rating-game-header::after,
+.animations-disabled .fast-game-header::after,
+.animations-disabled .leaderboard-header::after,
+.animations-disabled .add-friend-header::after {
+    transform: rotate(0) !important;
+}

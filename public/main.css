@@ -1,0 +1,687 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, 
+        rgba(13, 15, 23, 1) 0%, 
+        rgba(20, 22, 33, 1) 50%, 
+        rgba(13, 15, 23, 1) 100%);
+    min-height: 100px;
+    width: 100%;
+    padding: 0 20px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 2px;
+    background: linear-gradient(to right, 
+        rgba(168, 59, 110, 0.103), 
+        rgba(217, 22, 139, 0.11), 
+        rgba(168, 59, 110, 0.096));
+    z-index: 5;
+}
+
+.logo-search {
+    display: flex;
+    align-items: center;
+}
+
+.logo p {
+    font-size: 24px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.osu-part {
+    color: white;
+    font-weight: 520;
+}
+
+.rise-part {
+    color: #ff66aa;
+    font-weight: 500;
+    background: linear-gradient(90deg, #ff66aa, #d9168c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 5px rgba(217, 22, 140, 0.5);
+}
+
+.header-search {
+    border: 2px solid transparent;
+    background-image: linear-gradient(rgb(17, 18, 25), rgb(17, 18, 25)), 
+                     linear-gradient(to right, rgba(35, 38, 50, 1), rgba(217, 22, 140, 0.5), rgba(35, 38, 50, 1));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border-radius: 30px;
+    margin-left: 60px;
+    display: none; /* Скрыто по умолчанию */
+    align-items: center;
+    padding: 0;
+    width: 450px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.header-search.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.header-search img {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+}
+
+.header-search input {
+    color: gray;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 15px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.action-btns {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.action-btns > div {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Стили для элементов навигации */
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Стили для текстовой навигации */
+.nav-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(220, 220, 240, 0.7);
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.nav-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #ff3366, #ff6680);
+    transition: width 0.3s ease;
+}
+
+.nav-text:hover {
+    color: white;
+}
+
+.nav-text:hover::after {
+    width: 30%;
+}
+
+.action-btns .nav-item.active .nav-text {
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.action-btns .nav-item.active .nav-text::after {
+    width: 100%;
+    box-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+}
+
+/* Стили для иконок навигации */
+.nav-icon {
+    border: 2px solid rgb(35, 40, 55);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 7px;
+    display: none; /* По умолчанию скрываем иконки на больших экранах */
+    justify-content: center;
+    align-items: center;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.action-btns .nav-item.active .nav-icon {
+    border: 2px solid rgb(217, 22, 140);
+    box-shadow: 0 0 10px rgb(217, 22, 140);
+}
+
+/* Сохраняем стили для кнопки профиля */
+.profile-btn img {
+    border: 2px solid rgb(35, 40, 55);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 0;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.action-btns .profile-btn.active img {
+    border: 2px solid rgb(217, 22, 140);
+    box-shadow: 0 0 10px rgb(217, 22, 140);
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff66aa;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.notification-count.visible {
+    opacity: 1;
+}
+
+.authOsu-btn button {
+    color: white;
+    background: linear-gradient(135deg, rgba(217, 22, 140, 1), rgba(255, 102, 170, 0.9));
+    border: none;
+    padding: 20px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(217, 22, 140, 0.3);
+}
+
+.authOsu-btn button:hover {
+    box-shadow: 0 0 10px #ff66aa;
+}
+
+.profile-btn img {
+    padding: 0;
+    height: 70px;
+    width: 70px;
+    margin-left: 10px;
+}
+
+.menu-content {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(125deg, 
+        rgba(12, 14, 20, 1) 0%, 
+        rgba(14, 16, 23, 1) 15%,
+        rgba(16, 18, 25, 1) 30%,
+        rgba(18, 20, 28, 1) 45%,
+        rgba(19, 21, 30, 1) 60%,
+        rgba(21, 23, 32, 1) 75%,
+        rgba(23, 25, 35, 1) 100%);
+}
+
+.menu {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 10px;
+    border-radius: 16px;
+    background: linear-gradient(200deg, 
+        rgb(14, 16, 26) 0%, 
+        rgb(12, 14, 24) 30%,
+        rgb(10, 12, 22) 60%, 
+        rgb(8, 10, 20) 100%);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    min-width: 220px;
+    backdrop-filter: blur(5px);
+    z-index: 1;
+}
+
+.menu::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 16px;
+    background: linear-gradient(200deg, rgb(52 59 91 / 40%), rgb(0 0 0 / 30%));
+    z-index: -1;
+}
+
+.menu > div {
+    display: flex;
+    align-items: center;
+    color: rgba(180, 180, 200, 0.7);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 14px 12px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(25, 27, 38, 0.3);
+}
+
+.menu > div:hover {
+    background-color: rgba(35, 38, 55, 0.4);
+    color: rgba(220, 220, 240, 0.9);
+    transform: translateX(5px);
+}
+
+.menu > div.active {
+    color: white;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(90deg, 
+        rgba(30, 32, 45, 0.7) 0%, 
+        rgba(40, 40, 60, 0.4) 100%);
+    transform: translateX(5px); /* Добавлено смещение для активной вкладки */
+}
+
+.menu > div.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, #ff3366, #ff6680);
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+}
+
+.menu > div img {
+    width: 38px;
+    height: 38px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.menu > div.active img {
+    filter: drop-shadow(0 0 5px rgba(255, 120, 170, 0.6));
+    border-color: rgba(217, 22, 140, 0.5);
+    box-shadow: 0 0 10px rgba(217, 22, 140, 0.4);
+}
+
+.menu .site-settings {
+    margin-top: auto;
+    margin-bottom: 0;
+    padding: 14px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.menu .site-settings img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu .site-settings p {
+    display: flex;
+    align-items: center;
+}
+
+.menu .news,
+.menu .rating-game,
+.menu .fast-game,
+.menu .leaderboard {
+    margin-bottom: 12px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 15px;
+    position: relative;
+    background: linear-gradient(211deg, rgb(28 33 51), rgb(9 11 19));
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(30, 40, 60, 0.2);
+}
+
+.content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(14, 16, 24);
+    transition: opacity 0.25s ease-in-out;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0 !important;
+    border-radius: 16px;
+}
+
+.content.visible::after {
+    opacity: 0;
+}
+
+@keyframes pulseEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.97); }
+    100% { transform: scale(1); }
+}
+
+.menu > div.pulse-effect {
+    animation: pulseEffect 0.6s ease;
+}
+
+@keyframes rotateWiggle {
+    0% { transform: rotate(0deg); }
+    33% { transform: rotate(-10deg); }
+    66% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.rotate-wiggle {
+    animation: rotateWiggle 0.6s ease-in-out;
+}
+
+@media (max-width: 1500px) {
+    .header-search { 
+        display: none !important; 
+        opacity: 0 !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    /* На экранах меньше 1000px показываем иконки и скрываем текст */
+    .nav-text {
+        display: none;
+    }
+    
+    .nav-icon {
+        display: flex;
+        width: 38px; /* Уменьшаем размер иконок навигации */
+        height: 38px;
+        padding: 6px;
+    }
+    
+    .header { padding: 0 15px; }
+    .logo p { font-size: 22px; }
+    .action-btns { gap: 20px; }
+    
+    .profile-btn img { height: 55px; width: 55px; margin-left: 8px; }
+    .authOsu-btn button { padding: 16px 22px; font-size: 14px; margin-left: 20px; }
+    
+    .menu {
+        min-width: unset;
+        padding: 12px 8px;
+    }
+    .menu > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 12px 8px;
+    }
+    .menu > div img {
+        margin-right: 0;
+        margin-bottom: 5px;
+        width: 42px; /* Увеличиваем размер иконок меню */
+        height: 42px;
+    }
+    .menu > div p {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-top: 5px;
+        display: block !important;
+    }
+    .menu > div.active::before {
+        width: 100%;
+        height: 3px;
+        top: 0;
+        left: 0;
+        border-radius: 0 0 3px 3px;
+    }
+    
+    .menu .site-settings {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 12px 8px;
+    }
+    .menu .site-settings img {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    .notification-count {
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+        top: -4px;
+        right: -4px;
+    }
+    
+    /* Модифицируем поведение hover и active для маленьких экранов */
+    .menu > div:hover {
+        transform: none;
+    }
+    
+    .menu > div.active {
+        transform: none; /* Убираем смещение на маленьких экранах */
+    }
+}
+
+@media (max-width: 768px) {
+    .header { min-height: 80px; padding: 0 10px; }
+    .header::after {
+        height: 1px;
+    }
+    .logo p { font-size: 20px; }
+    .action-btns { gap: 15px; }
+    
+    /* Уменьшаем размеры иконок навигации */
+    .nav-icon {
+        width: 34px;
+        height: 34px;
+        padding: 6px;
+    }
+    
+    .profile-btn img { height: 48px; width: 48px; margin-left: 6px; }
+    .authOsu-btn button { padding: 14px 18px; font-size: 13px; margin-left: 15px; }
+    
+    .menu {
+        padding: 10px 6px;
+    }
+    .menu > div {
+        padding: 10px 6px;
+    }
+    .menu > div img {
+        width: 38px; /* Уменьшаем размер иконок меню, но оставляем больше чем раньше */
+        height: 38px;
+    }
+    .menu > div p {
+        font-size: 10px;
+    }
+    
+    .menu-content { padding: 15px; gap: 15px; }
+    .notification-count {
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        top: -3px;
+        right: -3px;
+    }
+}
+
+@media (max-width: 550px) {
+    .header { min-height: 70px; padding: 0 8px; }
+    .logo p { font-size: 18px; }
+    .action-btns { gap: 10px; }
+    
+    /* Еще уменьшаем размеры иконок навигации */
+    .nav-icon {
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        border-width: 1px;
+    }
+    
+    .profile-btn img { height: 42px; width: 42px; margin-left: 5px; }
+    .authOsu-btn button { padding: 10px 12px; font-size: 11px; margin-left: 10px; }
+    
+    .menu {
+        padding: 8px 4px;
+    }
+    .menu > div {
+        padding: 8px 4px;
+        margin-bottom: 6px;
+    }
+    .menu > div img {
+        width: 34px; /* Уменьшаем, но оставляем больше чем было */
+        height: 34px;
+    }
+    .menu > div p {
+        font-size: 9px;
+    }
+    
+    .menu-content { padding: 10px; gap: 10px; }
+    .notification-count {
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+        top: -2px;
+        right: -2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header { min-height: 60px; padding: 0 8px; }
+    .logo p { font-size: 16px; }
+    .action-btns { gap: 6px; }
+    
+    /* Максимально уменьшаем иконки навигации для очень маленьких экранов */
+    .nav-icon {
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+        border-width: 1px;
+    }
+    
+    .profile-btn img { height: 38px; width: 38px; margin-left: 4px; }
+    .authOsu-btn button { padding: 8px 10px; font-size: 10px; margin-left: 6px; }
+    
+    .menu {
+        padding: 6px 3px;
+    }
+    .menu > div {
+        padding: 6px 3px;
+        margin-bottom: 4px;
+    }
+    .menu > div img {
+        width: 30px; /* Увеличиваем по сравнению с оригиналом */
+        height: 30px;
+    }
+    .menu > div p {
+        font-size: 8px;
+    }
+    
+    .menu-content { padding: 8px; gap: 8px; }
+    .content { padding: 10px; }
+    .notification-count {
+        width: 12px;
+        height: 12px;
+        font-size: 8px;
+        top: -1px;
+        right: -1px;
+    }
+}
+
+/* Additional spacing fix for iPhone SE and similar small devices */
+@media (max-width: 375px) {
+    .menu > div {
+        padding: 10px 5px;
+        margin-bottom: 6px;
+    }
+    
+    .menu > div.active::before {
+        height: 4px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 0 0 4px 4px;
+    }
+    
+    .menu > div img {
+        margin-bottom: 8px;
+        padding: 4px;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .menu > div p {
+        margin-top: 4px;
+    }
+}

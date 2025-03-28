@@ -1,0 +1,801 @@
+/* Улучшенный fastGameMatchmaking.css */
+
+/* Оптимизированные анимации */
+@keyframes fastGame-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fastGame-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+}
+
+/* Оптимизированные стили модального окна */
+.fastGame-matchmaking-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 9, 15, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    backdrop-filter: blur(6px);
+    will-change: opacity;
+}
+
+.fastGame-matchmaking-modal-backdrop.visible {
+    opacity: 1;
+}
+
+.fastGame-matchmaking-modal {
+    background: linear-gradient(145deg, 
+        rgba(10, 12, 18, 0.97) 0%, 
+        rgba(15, 17, 25, 0.97) 50%,
+        rgba(12, 14, 20, 0.97) 100%);
+    border-radius: 20px;
+    width: 580px;
+    min-height: 100px;
+    padding: 25px 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    transform: translateY(25px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.15s ease-out, opacity 0.15s ease-out; /* Ускорено с 0.2s до 0.15s */
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    will-change: transform, opacity;
+}
+
+/* Более компактное расположение элементов при первой попытке */
+.fastGame-matchmaking-modal.initial {
+    padding-bottom: 20px;
+}
+
+.fastGame-matchmaking-modal.visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Эффекты свечения */
+.fastGame-modal-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.4;
+    z-index: -1;
+    animation: fastGame-pulse 6s ease-in-out infinite;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+    transform: scale(1);
+}
+
+.fastGame-modal-glow.top-left {
+    top: -80px;
+    left: -80px;
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(180, 20, 120, 0.2), rgba(210, 70, 140, 0.1));
+}
+
+.fastGame-modal-glow.bottom-right {
+    bottom: -80px;
+    right: -80px;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(225deg, rgba(50, 25, 70, 0.2), rgba(25, 8, 50, 0.1));
+}
+
+/* Контент модального окна */
+.fastGame-matchmaking-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    gap: 5px;
+}
+
+.fastGame-matchmaking-modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 600;
+    text-shadow: 0 0 15px rgba(180, 20, 120, 0.4);
+    background: linear-gradient(90deg, #f06, #d11880);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+}
+
+/* Таймер */
+.fastGame-matchmaking-timer {
+    position: relative;
+    width: 160px;
+    height: auto;
+    margin: 12px 0 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.fastGame-timer-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(180, 20, 120, 0.4);
+    letter-spacing: 4px;
+    text-align: center;
+    width: 100%;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    position: relative;
+}
+
+.fastGame-timer-text span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.8;
+    display: block;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+/* Оптимизированные индикаторы стадий поиска */
+.fastGame-search-stages-container {
+    margin: 0;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.fastGame-search-stages-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.fastGame-search-stage-item {
+    background: rgba(10, 12, 18, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    height: 0;
+    padding: 0 16px;
+    transform: translateY(20px);
+    transition: opacity 0.2s ease-out,
+                height 0.2s ease-out,
+                transform 0.2s ease-out,
+                padding 0.2s ease-out,
+                margin-bottom 0.2s ease-out,
+                background-color 0.2s ease-out;
+    position: relative;
+    overflow: hidden;
+    will-change: transform, opacity, height;
+    transform-origin: top center;
+}
+
+.fastGame-search-stage-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ff66aa, #d9168c);
+    border-radius: 4px 0 0 4px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    will-change: transform, opacity;
+}
+
+.fastGame-search-stage-item.active {
+    background: rgba(15, 17, 25, 0.7);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    height: 60px;
+    opacity: 1;
+    transform: translateY(0);
+    border-left: none;
+    z-index: 2;
+    position: relative;
+}
+
+.fastGame-search-stage-item.active::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.fastGame-search-stage-item.previous {
+    background: rgba(10, 12, 18, 0.3);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    height: 60px;
+    opacity: 0.7;
+    transform: translateY(0);
+    z-index: 1;
+}
+
+.fastGame-search-stage-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff66aa, #d9168c);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 10px rgba(217, 22, 140, 0.3);
+}
+
+.fastGame-search-stage-number::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(217, 22, 140, 0.3);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+
+.active .fastGame-search-stage-number::after {
+    opacity: 1;
+}
+
+.fastGame-search-stage-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+}
+
+/* Улучшенный статус поиска (анимированная иконка) */
+.fastGame-search-stage-status {
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    position: relative;
+    display: none;
+}
+
+.active .fastGame-search-stage-status {
+    display: block;
+}
+
+.fastGame-search-stage-status::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(217, 22, 140, 0.3);
+    border-radius: 50%;
+    border-top-color: #ff66aa;
+    animation: fastGame-spin 1.2s linear infinite;
+    will-change: transform;
+}
+
+/* Кнопка отмены */
+.fastGame-cancel-search-btn {
+    background: linear-gradient(135deg, 
+                rgba(180, 20, 120, 0.15) 0%, 
+                rgba(217, 22, 140, 0.4) 50%, 
+                rgba(180, 20, 120, 0.15) 100%);
+    background-size: 300% 100%;
+    background-position: left;
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 102, 170, 0.2);
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    margin-top: 6px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 8px rgba(217, 22, 140, 0.1);
+    will-change: transform, background-position, box-shadow;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.fastGame-cancel-search-btn:hover {
+    background-position: right;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25), 0 0 12px rgba(217, 22, 140, 0.25);
+    border-color: rgba(255, 102, 170, 0.3);
+    color: white;
+}
+
+/* Кнопки принятия/отклонения матча */
+.fastGame-accept-match-btn,
+.fastGame-decline-match-btn {
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    will-change: transform, box-shadow;
+}
+
+.fastGame-accept-match-btn {
+    background: linear-gradient(135deg, #3cae6a, #22a050);
+    box-shadow: 0 4px 15px rgba(34, 160, 80, 0.3);
+    margin-right: 15px;
+}
+
+.fastGame-decline-match-btn {
+    background: linear-gradient(135deg, #e04242, #c92222);
+    box-shadow: 0 4px 15px rgba(201, 34, 34, 0.3);
+}
+
+.fastGame-accept-match-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(34, 160, 80, 0.4);
+}
+
+.fastGame-decline-match-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(201, 34, 34, 0.4);
+}
+
+.fastGame-cancel-search-btn:active,
+.fastGame-accept-match-btn:active,
+.fastGame-decline-match-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Улучшенный экран VS */
+.fastGame-match-versus-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 25px 0;
+    padding: 24px;
+    background: rgba(10, 12, 18, 0.5);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.fastGame-player-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Исправленный стиль аватара с меньшим свечением */
+.fastGame-player-avatar-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease-out;
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.fastGame-player-avatar-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: -1;
+}
+
+/* Принятая игра - зеленый бордер с уменьшенным свечением */
+.fastGame-player-avatar-wrapper.fastGame-accepted {
+    border: 3px solid transparent;
+    background: linear-gradient(#0a0c12, #0a0c12) padding-box,
+                linear-gradient(135deg, #3cae6a, #22a050) border-box;
+    box-shadow: 0 0 15px rgba(34, 160, 80, 0.4);
+    transform: scale(1.05);
+}
+
+/* Ожидание - желтый бордер с уменьшенным свечением */
+.fastGame-player-avatar-wrapper.fastGame-waiting {
+    border: 3px solid transparent;
+    background: linear-gradient(#0a0c12, #0a0c12) padding-box,
+                linear-gradient(135deg, #e8be14, #d9a404) border-box;
+    box-shadow: 0 0 15px rgba(217, 164, 4, 0.3);
+}
+
+/* Отклонена - красный бордер с уменьшенным свечением */
+.fastGame-player-avatar-wrapper.fastGame-declined {
+    border: 3px solid transparent;
+    background: linear-gradient(#0a0c12, #0a0c12) padding-box,
+                linear-gradient(135deg, #e04242, #c92222) border-box;
+    box-shadow: 0 0 15px rgba(201, 34, 34, 0.4);
+}
+
+.fastGame-player-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.fastGame-player-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.fastGame-player-status {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.fastGame-versus-text {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f06, #d11880);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 15px;
+    text-shadow: 0 0 15px rgba(180, 20, 120, 0.4);
+    position: relative;
+    animation: fastGame-pulse 3s ease-in-out infinite;
+}
+
+.fastGame-versus-text::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: rgba(180, 20, 120, 0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(20px);
+    z-index: -1;
+}
+
+.fastGame-match-status {
+    text-align: center;
+    margin-top: 25px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.fastGame-status-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 8px;
+}
+
+/* Улучшенный загрузочный спиннер */
+.fastGame-loading-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 20px auto 0;
+    position: relative;
+}
+
+.fastGame-loading-spinner::before,
+.fastGame-loading-spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    will-change: transform;
+}
+
+.fastGame-loading-spinner::before {
+    border-top-color: #f06;
+    border-right-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+    border-left-color: rgba(255, 255, 255, 0.05);
+    animation: fastGame-spin 1.2s linear infinite;
+}
+
+.fastGame-loading-spinner::after {
+    border: 3px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Иконка отмены матча */
+.fastGame-match-cancel-icon {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(201, 34, 34, 0.15);
+    box-shadow: 0 0 20px rgba(201, 34, 34, 0.2);
+}
+
+.fastGame-match-cancel-icon svg {
+    width: 40px;
+    height: 40px;
+    stroke: #e04242;
+    stroke-width: 2;
+}
+
+.fastGame-match-cancel-message {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+}
+
+/* Информация о сопернике */
+.fastGame-match-opponent-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 24px;
+    background: rgba(10, 12, 18, 0.5);
+    border-radius: 16px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.fastGame-opponent-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid transparent;
+    background: linear-gradient(#0a0c12, #0a0c12) padding-box,
+                linear-gradient(to right, #f06, #d11880) border-box;
+    box-shadow: 0 0 20px rgba(180, 20, 120, 0.4);
+}
+
+.fastGame-opponent-details {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.fastGame-opponent-username {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.fastGame-opponent-rank {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+}
+
+.fastGame-match-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Эффект появления - оптимизированный */
+@keyframes fastGame-fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fastGame-fade-in {
+    animation: fastGame-fadeIn 0.2s ease-out forwards; /* Ускорено с 0.3s до 0.2s */
+}
+
+/* Немедленное отображение элементов без анимации (для первой попытки) */
+.fastGame-no-animation {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Адаптивность для разных размеров экрана */
+@media (max-width: 600px) {
+    .fastGame-matchmaking-modal {
+        width: 95%;
+        padding: 30px 25px;
+    }
+    
+    .fastGame-matchmaking-modal-content h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+    
+    .fastGame-matchmaking-timer {
+        width: 140px;
+        height: 140px;
+        margin: 15px 0;
+    }
+    
+    .fastGame-timer-text {
+        font-size: 28px;
+    }
+    
+    .fastGame-match-opponent-info {
+        padding: 20px;
+    }
+    
+    .fastGame-opponent-avatar {
+        width: 70px;
+        height: 70px;
+        margin-right: 15px;
+    }
+    
+    .fastGame-opponent-username {
+        font-size: 20px;
+    }
+    
+    .fastGame-search-stage {
+        width: 40px;
+    }
+    
+    .fastGame-search-stages-container {
+        width: 280px;
+    }
+    
+    .fastGame-match-actions {
+        flex-direction: column;
+    }
+    
+    .fastGame-accept-match-btn,
+    .fastGame-decline-match-btn {
+        margin: 8px 0;
+        width: 100%;
+    }
+    
+    .fastGame-match-versus-display {
+        padding: 15px;
+    }
+    
+    .fastGame-versus-text {
+        margin: 0 10px;
+        font-size: 30px;
+    }
+    
+    .fastGame-player-avatar-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fastGame-matchmaking-modal {
+        padding: 25px 20px;
+    }
+    
+    .fastGame-matchmaking-modal-content h2 {
+        font-size: 22px;
+    }
+    
+    .fastGame-matchmaking-timer {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .fastGame-timer-text {
+        font-size: 24px;
+    }
+    
+    .fastGame-search-range-text {
+        font-size: 14px;
+    }
+    
+    .fastGame-cancel-search-btn,
+    .fastGame-accept-match-btn,
+    .fastGame-decline-match-btn {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+    
+    .fastGame-search-stage-item {
+        padding: 10px 12px;
+    }
+    
+    .fastGame-search-stages-container {
+        width: 220px;
+    }
+    
+    .fastGame-opponent-username {
+        font-size: 18px;
+    }
+    
+    .fastGame-opponent-avatar {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .fastGame-player-avatar-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .fastGame-versus-text {
+        font-size: 26px;
+    }
+    
+    .fastGame-player-name {
+        font-size: 16px;
+    }
+    
+    .fastGame-match-cancel-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .fastGame-match-cancel-message {
+        font-size: 18px;
+    }
+}

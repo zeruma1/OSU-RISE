@@ -1,0 +1,265 @@
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    min-width: 280px;
+    min-height: 80px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 0; /* Removed border radius */
+    background: rgba(18, 20, 30, 0.95);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+    opacity: 0;
+    pointer-events: auto;
+    overflow: hidden;
+    border: 1px solid rgba(50, 55, 70, 0.5);
+    position: relative;
+}
+
+.toast::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 0; /* Ensure no border radius on indicator */
+}
+
+.toast.info::before {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+}
+
+.toast.success::before {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+}
+
+.toast.warning::before {
+    background: linear-gradient(to bottom, #f39c12, #e67e22);
+}
+
+.toast.error::before {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+}
+
+.toast.primary::before {
+    background: linear-gradient(to bottom, #ff66aa, #d9168c);
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.toast.info .toast-icon {
+    background-color: rgba(52, 152, 219, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233498db'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+}
+
+.toast.success .toast-icon {
+    background-color: rgba(46, 204, 113, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232ecc71'%3E%3Cpath d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/%3E%3C/svg%3E");
+}
+
+.toast.warning .toast-icon {
+    background-color: rgba(243, 156, 18, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f39c12'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E");
+}
+
+.toast.error .toast-icon {
+    background-color: rgba(231, 76, 60, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e74c3c'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+}
+
+.toast.primary .toast-icon {
+    background-color: rgba(255, 102, 170, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff66aa'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+}
+
+.toast-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.toast-title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.toast.info .toast-title {
+    color: #3498db;
+}
+
+.toast.success .toast-title {
+    color: #2ecc71;
+}
+
+.toast.warning .toast-title {
+    color: #f39c12;
+}
+
+.toast.error .toast-title {
+    color: #e74c3c;
+}
+
+.toast.primary .toast-title {
+    color: #ff66aa;
+}
+
+.toast-message {
+    color: rgba(220, 220, 240, 0.9);
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 400;
+    word-break: break-word;
+}
+
+.toast-close {
+    width: 20px;
+    height: 20px;
+    margin-left: 30px; /* Increased from 15px to 30px for more spacing */
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+    background-size: cover;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.toast-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, #2980b9, #3498db);
+    animation: toast-progress 3s linear forwards;
+}
+
+.toast.info .toast-progress::after {
+    background: linear-gradient(to right, #2980b9, #3498db);
+}
+
+.toast.success .toast-progress::after {
+    background: linear-gradient(to right, #27ae60, #2ecc71);
+}
+
+.toast.warning .toast-progress::after {
+    background: linear-gradient(to right, #e67e22, #f39c12);
+}
+
+.toast.error .toast-progress::after {
+    background: linear-gradient(to right, #c0392b, #e74c3c);
+}
+
+.toast.primary .toast-progress::after {
+    background: linear-gradient(to right, #d9168c, #ff66aa);
+}
+
+@keyframes toast-progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .toast-container {
+        bottom: 15px;
+        right: 15px;
+        left: 15px;
+        align-items: stretch;
+    }
+    
+    .toast {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast {
+        min-height: 70px;
+        padding: 12px;
+    }
+    
+    .toast-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+    }
+    
+    .toast-title {
+        font-size: 14px;
+    }
+    
+    .toast-message {
+        font-size: 13px;
+    }
+}

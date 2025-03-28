@@ -1,0 +1,241 @@
+/* Базовые стили для модальных окон */
+.osu-auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out; /* Плавный переход */
+    z-index: 10000; /* Высокий z-index чтобы модалка была поверх всех элементов */
+    overflow: hidden; /* Предотвращаем прокрутку */
+    isolation: isolate; /* Создаем новый контекст наложения */
+}
+
+.osu-auth-modal {
+    background-color: #15151A;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 450px; /* Оригинальная ширина */
+    min-height: 400px; /* Оригинальная высота */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    position: relative;
+    box-shadow: none; /* Убираем тени */
+    overflow: hidden; /* Скрываем выходящие за границы эффекты */
+    transform: translateZ(0); /* Создаем новый контекст наложения через GPU */
+}
+
+.modal-title {
+    font-size: 24px;
+    color: #FFFFFF;
+    text-shadow: none; /* Убираем тени текста */
+}
+
+.modal-subtitle {
+    font-size: 16px;
+    color: #AAAAAA;
+    text-shadow: none; /* Убираем тени текста */
+}
+
+/* Изолированный контейнер для Loader, чтобы свечение не выходило за границы */
+.Loader-container {
+    position: relative;
+    width: 146px;
+    height: 146px;
+    border-radius: 50%;
+    overflow: visible; /* Разрешаем лоадеру светиться за границы контейнера */
+    isolation: isolate; /* Изолируем эффекты */
+}
+
+.Loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 146px; /* Оригинальный размер лоадера */
+}
+
+.Loader:before,
+.Loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    animation-duration: 1.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    filter: drop-shadow(0 0 7.5px rgba(255, 102, 170, 0.75)); /* Розовый по умолчанию */
+}
+
+.Loader:before {
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: inset 0 0 0 17px #ff66aa; /* Оригинальная толщина */
+    animation-name: pulsA;
+}
+
+.Loader:after {
+    width: calc(100% - 34px);
+    padding-bottom: calc(100% - 34px);
+    box-shadow: 0 0 0 0 #ff66aa; /* Оригинальная толщина */
+    animation-name: pulsB;
+}
+
+/* Стили для успешной авторизации: зеленый цвет */
+.Loader.success:before,
+.Loader.success:after {
+    filter: drop-shadow(0 0 7.5px rgba(0, 255, 0, 0.75)); /* Зеленый */
+}
+
+.Loader.success:before {
+    box-shadow: inset 0 0 0 17px #00ff00; /* Зеленый */
+}
+
+.Loader.success:after {
+    box-shadow: 0 0 0 0 #00ff00; /* Зеленый */
+}
+
+@keyframes pulsA {
+    0% { box-shadow: inset 0 0 0 17px #ff66aa; opacity: 1; }
+    50%, 100% { box-shadow: inset 0 0 0 0 #ff66aa; opacity: 0; }
+}
+
+@keyframes pulsB {
+    0%, 50% { box-shadow: 0 0 0 0 #ff66aa; opacity: 0; }
+    100% { box-shadow: 0 0 0 17px #ff66aa; opacity: 1; }
+}
+
+/* Переопределяем анимацию для зеленого цвета */
+.Loader.success:before {
+    animation-name: pulsA-success;
+}
+
+.Loader.success:after {
+    animation-name: pulsB-success;
+}
+
+@keyframes pulsA-success {
+    0% { box-shadow: inset 0 0 0 17px #00ff00; opacity: 1; }
+    50%, 100% { box-shadow: inset 0 0 0 0 #00ff00; opacity: 0; }
+}
+
+@keyframes pulsB-success {
+    0%, 50% { box-shadow: 0 0 0 0 #00ff00; opacity: 0; }
+    100% { box-shadow: 0 0 0 17px #00ff00; opacity: 1; }
+}
+
+/* Адаптивность */
+
+/* Экраны шириной 768px и меньше */
+@media (max-width: 768px) {
+    .osu-auth-modal {
+        width: 80%; /* Уменьшаем до 80% ширины экрана */
+        min-height: 350px; /* Пропорционально уменьшаем высоту */
+        padding: 20px;
+        gap: 40px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+
+    .modal-subtitle {
+        font-size: 14px;
+    }
+
+    .Loader-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .Loader {
+        max-width: 120px; /* Уменьшаем лоадер */
+    }
+
+    .Loader:before {
+        box-shadow: inset 0 0 0 12px #ff66aa; /* Уменьшаем толщину кольца */
+    }
+
+    .Loader.success:before {
+        box-shadow: inset 0 0 0 12px #00ff00;
+    }
+}
+
+/* Экраны шириной 550px и меньше */
+@media (max-width: 550px) {
+    .osu-auth-modal {
+        width: 85%; /* Уменьшаем до 85% */
+        min-height: 300px;
+        padding: 15px;
+        gap: 30px;
+    }
+
+    .modal-title {
+        font-size: 18px;
+    }
+
+    .modal-subtitle {
+        font-size: 12px;
+    }
+
+    .Loader-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .Loader {
+        max-width: 100px;
+    }
+
+    .Loader:before {
+        box-shadow: inset 0 0 0 10px #ff66aa;
+    }
+
+    .Loader.success:before {
+        box-shadow: inset 0 0 0 10px #00ff00;
+    }
+}
+
+/* Экраны шириной 480px и меньше */
+@media (max-width: 480px) {
+    .osu-auth-modal {
+        width: 90%; /* Уменьшаем до 90% */
+        min-height: 250px;
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .modal-title {
+        font-size: 16px;
+    }
+
+    .modal-subtitle {
+        font-size: 10px;
+    }
+
+    .Loader-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .Loader {
+        max-width: 80px;
+    }
+
+    .Loader:before {
+        box-shadow: inset 0 0 0 8px #ff66aa;
+    }
+
+    .Loader.success:before {
+        box-shadow: inset 0 0 0 8px #00ff00;
+    }
+}

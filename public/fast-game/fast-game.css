@@ -1,0 +1,440 @@
+/* Обновленный дизайн быстрой игры в стиле новостного раздела */
+.fast-game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Стилизация заголовка раздела в стиле новостей */
+.fast-game-header {
+    position: relative;
+    margin-bottom: 30px;
+    padding: 65px 20px;
+    min-height: 220px;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 16px;
+    /* Градиентный фон с синими и темно-синими тонами как в новостях */
+    background: linear-gradient(125deg, rgba(22, 26, 45, 0.85), rgba(32, 36, 58, 0.9));
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Добавляем розовое свечение как в новостях */
+.fast-game-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255, 85, 115, 0.15), transparent 70%);
+    z-index: 1;
+}
+
+/* Анимированный градиентный фон как в новостях */
+.fast-game-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(217deg, rgba(30, 40, 80, 0.05), rgba(30, 40, 80, 0.08) 70.71%),
+                linear-gradient(127deg, rgba(255, 85, 115, 0.07), rgba(255, 85, 115, 0.1) 70.71%),
+                linear-gradient(336deg, rgba(25, 35, 65, 0.05), rgba(25, 35, 65, 0.08) 70.71%);
+    z-index: 0;
+    transform: rotate(0deg);
+    animation: gradientRotate 15s linear infinite;
+}
+
+@keyframes gradientRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fast-game-title {
+    position: relative;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    /* Белый текст с градиентом как в новостях */
+    background: linear-gradient(90deg, #ffffff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Легкое свечение текста */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    z-index: 2;
+}
+
+.fast-game-subtitle {
+    position: relative;
+    font-size: 1.1rem;
+    /* Светлый текст с голубовато-розовым оттенком как в новостях */
+    color: #c5c8e0;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+    z-index: 2;
+}
+
+/* Карточка быстрой игры в стиле новостной карточки */
+.fast-game-card {
+    position: relative;
+    width: 85%;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    /* Темно-синий фон карточки как в новостях */
+    background: rgba(15, 18, 30, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    min-height: 280px;
+    /* Тонкая темно-синяя обводка */
+    border: 1px solid rgba(30, 40, 80, 0.6);
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.fast-game-card:hover {
+    /* Уменьшенный подъем карточки при наведении */
+    transform: translateY(-4px);
+    /* Мягкая тень при наведении */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    /* Тонкая розовая обводка при наведении как акцент */
+    border-color: rgba(255, 85, 115, 0.3);
+}
+
+/* Стилизированная подложка с градиентом */
+.fast-game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Глубокий темно-синий градиент фона */
+    background: linear-gradient(160deg, 
+        rgba(20, 25, 45, 0.7) 0%, 
+        rgba(15, 20, 35, 0.8) 100%
+    );
+    z-index: -1;
+}
+
+/* Эффект блика при наведении */
+.fast-game-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* Чисто-розовый блик при наведении как акцент */
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 85, 115, 0.08) 0%,
+        transparent 60%
+    );
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.fast-game-card:hover::after {
+    /* Уменьшенный эффект блика */
+    opacity: 0.4;
+    transform: scale(1);
+}
+
+/* Верхняя часть карточки (баннер) */
+.fast-game-card-banner {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    /* Темно-синий фон с розовым градиентом */
+    background: linear-gradient(135deg, #141e38, #1f2c4d);
+}
+
+.fast-game-card-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Розовое свечение и затемнение */
+    background: 
+        radial-gradient(circle at 70% 30%, rgba(255, 85, 115, 0.15) 0%, transparent 60%),
+        linear-gradient(to bottom, rgba(10, 15, 30, 0.3) 0%, rgba(10, 15, 30, 0.9) 100%);
+    z-index: 2;
+}
+
+/* Декоративные элементы на баннере */
+.fast-game-card-banner-circle-1 {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 85, 115, 0.1);
+    z-index: 1;
+}
+
+.fast-game-card-banner-circle-2 {
+    position: absolute;
+    bottom: -40px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 85, 115, 0.05);
+    z-index: 1;
+}
+
+/* Контент карточки */
+.fast-game-card-content {
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+}
+
+/* Заголовок карточки */
+.fast-game-card-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    /* Легкий градиент на тексте */
+    background: linear-gradient(90deg, #ffffff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Кнопка в стиле новостного раздела */
+.fast-game-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: white;
+    background: linear-gradient(135deg, #ff3366, #ff6680);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+}
+
+.fast-game-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 51, 102, 0.5);
+}
+
+.fast-game-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(255, 51, 102, 0.4);
+}
+
+/* Эффект блика на кнопке */
+.fast-game-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    transition: transform 0.3s ease-out;
+}
+
+.fast-game-btn:hover::after {
+    transform: rotate(30deg) translate(10%, 10%);
+}
+
+/* Декоративный разделитель перед кнопкой */
+.fast-game-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #ff3366, #ff6680);
+    margin: 0 auto 30px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(255, 85, 115, 0.2);
+}
+
+/* Анимация появления элементов */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация пульсации для кнопки */
+@keyframes btnPulse {
+    0% { box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3); }
+    50% { box-shadow: 0 4px 25px rgba(255, 51, 102, 0.5); }
+    100% { box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3); }
+}
+
+.fast-game-btn {
+    animation: btnPulse 3s infinite;
+}
+
+/* Адаптивные стили */
+@media (max-width: 1200px) {
+    .fast-game-header {
+        padding: 55px 15px;
+        min-height: 200px;
+    }
+    .fast-game-title {
+        font-size: 2rem;
+    }
+    .fast-game-subtitle {
+        font-size: 1rem;
+    }
+    .fast-game-card {
+        width: 90%;
+    }
+    .fast-game-card-title {
+        font-size: 1.4rem;
+    }
+    .fast-game-btn {
+        padding: 14px 26px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .fast-game-header {
+        padding: 45px 15px;
+        min-height: 180px;
+    }
+    .fast-game-title {
+        font-size: 1.6rem;
+    }
+    .fast-game-subtitle {
+        font-size: 0.9rem;
+    }
+    .fast-game-card {
+        width: 95%;
+        min-height: 260px;
+    }
+    .fast-game-card-banner {
+        height: 120px;
+    }
+    .fast-game-card-content {
+        padding: 25px 20px;
+    }
+    .fast-game-card-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    .fast-game-divider {
+        margin-bottom: 20px;
+    }
+    .fast-game-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .fast-game-header {
+        padding: 35px 15px;
+        min-height: 160px;
+    }
+    .fast-game-title {
+        font-size: 1.4rem;
+    }
+    .fast-game-subtitle {
+        font-size: 0.85rem;
+    }
+    .fast-game-card {
+        width: 98%;
+        min-height: 240px;
+    }
+    .fast-game-card-banner {
+        height: 100px;
+    }
+    .fast-game-card-banner-circle-1 {
+        width: 90px;
+        height: 90px;
+    }
+    .fast-game-card-banner-circle-2 {
+        width: 80px;
+        height: 80px;
+    }
+    .fast-game-card-content {
+        padding: 20px 15px;
+    }
+    .fast-game-card-title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    .fast-game-divider {
+        width: 50px;
+        margin-bottom: 15px;
+    }
+    .fast-game-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .fast-game-header {
+        padding: 30px 10px;
+        min-height: 150px;
+    }
+    .fast-game-title {
+        font-size: 1.3rem;
+    }
+    .fast-game-subtitle {
+        font-size: 0.8rem;
+    }
+    .fast-game-card {
+        min-height: 220px;
+    }
+    .fast-game-card-banner {
+        height: 80px;
+    }
+    .fast-game-card-content {
+        padding: 15px 10px;
+    }
+    .fast-game-card-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    .fast-game-divider {
+        width: 40px;
+        height: 2px;
+        margin-bottom: 12px;
+    }
+    .fast-game-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+}
