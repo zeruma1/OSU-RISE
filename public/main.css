@@ -416,7 +416,6 @@ html, body {
     transition: opacity 0.25s ease-in-out;
     pointer-events: none;
     z-index: 10;
-    opacity: 0 !important;
     border-radius: 16px;
 }
 

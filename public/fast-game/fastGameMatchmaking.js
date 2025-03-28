@@ -934,10 +934,30 @@ function handleMatchAccepted(data) {
         }
     }
     
-    // В любом случае, закрываем через 3 секунды
+    // В любом случае, закрываем через 3 секунды и загружаем интерфейс игры
     setTimeout(() => {
         closeMatchmakingModal();
-        showToast('Функционал игры находится в разработке!');
+        
+        // Загружаем шаблон для процесса игры
+        import('./fastGameProcess.js').then(module => {
+            // Получаем контейнер контента
+            const contentBlock = document.querySelector('.content');
+            if (contentBlock) {
+                // Загружаем шаблон
+                contentBlock.innerHTML = module.getFastGameProcessTemplate();
+                
+                // Инициализируем обработчики событий
+                module.initFastGameProcessHandlers();
+                
+                // Делаем контент видимым
+                setTimeout(() => {
+                    contentBlock.classList.add('visible');
+                }, 10);
+            }
+        }).catch(error => {
+            console.error('Ошибка при загрузке шаблона процесса игры:', error);
+            showToast('Ошибка при загрузке игры. Попробуйте позже', 'error');
+        });
     }, 3000);
 }
 
